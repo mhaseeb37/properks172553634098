@@ -1,0 +1,315 @@
+{%- liquid
+  assign with_only_links = true
+  assign is_first_link = true
+  assign is_second_link = true
+
+  if btn_text != blank and btn_style != 'link'
+    assign with_only_links = false
+    assign is_first_link = false
+  endif
+
+  if extra_btn_text != blank and extra_btn_style != 'link'
+    assign with_only_links = false
+    assign is_second_link = false
+  endif
+
+  if text != blank
+    assign with_only_links = false
+  endif
+-%}
+
+
+{%- if caption != blank or title != blank or text != blank or btn_text != blank or extra_btn_text != blank -%}
+  <div class='image-banner__content-wrap  {% if properk_landing %} properk_landing_banner{% endif %}'>
+    <div class='image-banner__content image-banner__content--desktop image-banner__content--with-{{ desktop_content_background }}-background'>
+      {% if logo != blank %}
+        <img
+        {% render 'image-attributes', image: logo, size: 'medium', class: 'devProperkLogo' %}
+      >
+      {% endif %}
+      {%- if caption != blank -%}
+        <div class='caption image-banner__caption {% if desktop_content_background == 'solid' %} desktop-body-color {% endif %}'>{{ caption }}</div>
+      {%- endif -%}
+      {%- if title != blank -%}
+       
+        
+        {% if properk_landing %}
+  {% assign customer_name = customer.first_name %}
+  {% assign currentyear = 'now' | date: '%Y' %}
+  <h2 class='image-banner__title {{ heading_size }}'>{{ title | replace: "[Name]", customer_name | replace: "[this year]", currentyear }}</h2>
+        {% else %}
+           <h2 class='image-banner__title {{ heading_size }}'>{{ title }}</h2>
+          {% endif %}
+      {%- endif -%}
+      {%- if text != blank -%}
+        <div class='rte {{ body_size }} {% if desktop_content_background == 'solid' and title != blank %} desktop-body-color {% endif %} image-banner__text body-font-weight-from-global-settings'>
+          {{ text }}
+        </div>
+      {%- endif -%}
+      {% if achievementimage != blank %}
+        <div class="achievement_image">
+          <img src={{ achievementimage | image_url }}>
+        </div>
+      {% endif %}
+      {% if bottom_image != blank %}
+        <div class="main_bottom_text">
+          {{ bottom_image }}
+        </div>
+      {% endif %}
+      {% if body_two_text != blank %}
+      <div class="bodysec">
+        {{ body_two_text }}
+        </div>
+      {% endif %}
+      {%- if btn_text != blank or extra_btn_text != blank -%}
+        <div class='image-banner__btns {% if is_first_link %} image-banner__btns--with-first-button-link {% endif %} {% if is_second_link %} image-banner__btns--with-second-button-link {% endif %} {% if with_only_links %} image-banner__btns--with-only-links {% endif %}'>
+          {%- if btn_text != blank -%}
+            {%- if btn_style == 'link' -%}
+              <a
+                class='link image-banner__btn-link'
+                {% if btn_url != blank %}
+                  href='{{ btn_url }}'
+                {% endif %}
+                aria-label='{% if btn_text != blank %}{{ btn_text | strip_html | escape }}{% elsif btn_url.title != blank %}{{ btn_url.title | strip_html | escape }}{% else %}#{% endif %}'
+              >
+                <span class="link-parent-for-hover">
+                  <span class='link__text'>{{ btn_text }}</span>
+                </span>
+                {%- render 'icon', icon_name: 'link-chevron', class: 'link__chevron' -%}
+              </a>
+            {%- else -%}
+              <a
+                class='btn btn--{{ btn_style }} image-banner__btn {{ section_popup_properks }}'
+                {% if btn_url != blank %}
+                  href='{{ btn_url }}'
+                {% endif %}
+                data-popup="popup_first"
+                aria-label='{% if btn_text != blank %}{{ btn_text | strip_html | escape }}{% elsif btn_url.title != blank %}{{ btn_url.title | strip_html | escape }}{% else %}#{% endif %}'
+              >
+                {{- btn_text -}}
+              </a>
+            {%- endif -%}
+          {%- endif -%}
+          {%- if extra_btn_text != blank -%}
+            {% if extra_btn_style == 'link' -%}
+              <a
+                class='link image-banner__btn-link'
+                {% if extra_btn_url != blank %}
+                  href='{{ extra_btn_url }}'
+                {% endif %}
+                 
+                aria-label='{% if extra_btn_text != blank %}{{ extra_btn_text | strip_html | escape }}{% elsif extra_btn_url.title != blank %}{{ extra_btn_url.title | strip_html | escape }}{% else %}#{% endif %}'
+              >
+                <span class="link-parent-for-hover">
+                  <span class='link__text'>{{ extra_btn_text }}</span>
+                </span>
+                {%- render 'icon', icon_name: 'link-chevron', class: 'link__chevron' -%}
+              </a>
+            {%- else -%}
+              <a
+                class='btn btn--{{ extra_btn_style }} image-banner__btn {{section_popup_properks}}'
+                {% if extra_btn_url != blank %}
+                  href='{{ extra_btn_url }}'
+                {% endif %}
+                data-popup="popup_sec"
+                aria-label='{% if extra_btn_text != blank %}{{ extra_btn_text | strip_html | escape }}{% elsif extra_btn_url.title != blank %}{{ extra_btn_url.title | strip_html | escape }}{% else %}#{% endif %}'
+              >
+                {{- extra_btn_text -}}
+              </a>
+            {%- endif -%}
+          {%- endif -%}
+           {%- if extrafirst_btn_text != blank -%}
+              <a
+                class='btn btn--{{ extrafirst_btn_style }} image-banner__btn {{section_popup_properks}}'
+                {% if extrafirst_btn_url != blank %}
+                  href='{{ extrafirst_btn_url }}'
+                {% endif %}
+                data-popup="popup_sec"
+                aria-label='{% if extrafirst_btn_text != blank %}{{ extrafirst_btn_text | strip_html | escape }}{% elsif extrafirst_btn_url.title != blank %}{{ extrafirst_btn_url.title | strip_html | escape }}{% else %}#{% endif %}'
+              >
+                {{- extrafirst_btn_text -}}
+              </a>
+          {% endif %}
+           {%- if extrasec_btn_text != blank -%}
+              <a
+                class='btn btn--{{ extrasec_btn_style }} image-banner__btn {{section_popup_properks}}'
+                {% if extrasec_btn_url != blank %}
+                  href='{{ extrasec_btn_url }}'
+                {% endif %}
+                data-popup="popup_sec"
+                aria-label='{% if extrasec_btn_text != blank %}{{ extrasec_btn_text | strip_html | escape }}{% elsif extrasec_btn_url.title != blank %}{{ extrasec_btn_url.title | strip_html | escape }}{% else %}#{% endif %}'
+              >
+                {{- extrasec_btn_text -}}
+              </a>
+          {% endif %}
+        </div>
+      {%- endif -%}
+      {% if small_text != blank %}
+        <div class="devSignText">
+         {{ small_text }}
+        </div>
+      {% endif %}
+    </div>
+    <div class='image-banner__content image-banner__content--mobile image-banner__content--with-{{ mobile_content_background }}-background'>
+       {% if logo != blank %}
+        <img
+        {% render 'image-attributes', image: logo, size: 'medium', class: 'devProperkLogo' %}
+      >
+      {% endif %}
+      {%- if caption != blank -%}
+        <div class='caption image-banner__caption {% if mobile_content_background == 'solid' %} mobile-body-color {% endif %}'>{{ caption }}</div>
+      {%- endif -%}
+       {%- if title != blank -%}
+       
+        
+        {% if properk_landing %}
+  {% assign customer_name = customer.first_name %}
+  {% assign currentyear = 'now' | date: '%Y' %}
+  <h2 class='image-banner__title {{ heading_size }}'>{{ title | replace: "[Name]", customer_name | replace: "[this year]", currentyear }}</h2>
+        {% else %}
+           <h2 class='image-banner__title {{ heading_size }}'>{{ title }}</h2>
+          {% endif %}
+      {%- endif -%}
+      {%- if text != blank -%}
+        <div class='rte {{ body_size }} image-banner__text body-font-weight-from-global-settings {% if mobile_content_background == 'solid' and title != blank %} mobile-body-color {% endif %}'>
+          {{ text }}
+        </div>
+      {%- endif -%}
+       {% if achievementimage != blank %}
+        <div class="achievement_image">
+          <img src={{ achievementimage | image_url }}>
+        </div>
+      {% endif %}
+       {% if bottom_image != blank %}
+        <div class="main_bottom_text">
+          {{ bottom_image }}
+        </div>
+      {% endif %}
+      {% if body_two_text != blank %}
+      <div class="bodysec">
+        {{ body_two_text }}
+        </div>
+      {% endif %}
+      {%- if btn_text != blank or extra_btn_text != blank -%}
+        <div class='image-banner__btns {% if is_first_link %} image-banner__btns--with-first-button-link {% endif %} {% if is_second_link %} image-banner__btns--with-second-button-link {% endif %} {% if with_only_links %} image-banner__btns--with-only-links {% endif %}'>
+          {%- if btn_text != blank -%}
+            {%- if btn_style == 'link' -%}
+              <a
+                class='link image-banner__btn-link'
+                {% if btn_url != blank %}
+                  href='{{ btn_url }}'
+                {% endif %}
+                aria-label='{{ btn_text | strip_html | escape }}'
+                tabindex='-1'
+              >
+                <span class="link-parent-for-hover">
+                  <span class='link__text'>{{ btn_text }}</span>
+                </span>
+                {%- render 'icon', icon_name: 'link-chevron', class: 'link__chevron' -%}
+              </a>
+            {%- else -%}
+              <a
+                class='btn btn--{{ btn_style }} image-banner__btn'
+                {% if btn_url != blank %}
+                  href='{{ btn_url }}'
+                {% endif %}
+                 data-popup="popup_first"
+                aria-label='{{- btn_text | strip_html | escape -}}'
+                tabindex='-1'
+              >
+                {{- btn_text -}}
+                {% if btn_content_mobile %}
+                
+<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M10.2048 5.78954C10.2037 5.74663 10.2037 5.70684 10.2037 5.67106C8.26365 4.7518 6.77616 3.38022 6.59781 0.631084C6.58592 0.447827 6.57985 0.258447 6.57985 0.0626732L8.67118 0.0626221L8.67122 0.0879042C8.67157 0.214046 8.67462 0.336166 8.68031 0.454515C8.7713 2.3481 9.5383 3.27655 10.7875 4.27593L10.8079 4.29226C11.5141 4.8545 12.3955 5.41391 12.3955 5.41391C12.3955 5.41391 12.9379 5.71702 13.5677 5.92477L13.5879 5.93133L13.5879 5.93242L13.5881 7.52018L13.5879 7.52326C12.9495 7.73112 12.3955 8.04073 12.3955 8.04073C12.3955 8.04073 11.4971 8.611 10.7875 9.17866C9.45505 10.2447 8.67121 11.23 8.67121 13.392H6.57988C6.57988 10.2593 8.13435 8.76412 10.2038 7.78358C10.2038 7.74773 10.2038 7.70786 10.2048 7.66486L1.45345 7.66486L0.271076 7.67896L0.271076 7.66486H0.258789L0.258789 5.78954H0.271075L0.271075 5.77364L1.6043 5.78954L10.2048 5.78954Z" fill="black"/>
+</svg>
+
+                {% endif %}
+              </a>
+            {%- endif -%}
+          {%- endif -%}
+          {%- if extra_btn_text != blank -%}
+            {% if extra_btn_style == 'link' -%}
+              <a
+                class='link image-banner__btn-link'
+                {% if extra_btn_url != blank %}
+                  href='{{ extra_btn_url }}'
+                {% endif %}
+                aria-label='{{ extra_btn_text | strip_html | escape }}'
+                tabindex='-1'
+              >
+                <span class="link-parent-for-hover">
+                  <span class='link__text'>{{ extra_btn_text }}</span>
+                </span>
+                
+                {%- render 'icon', icon_name: 'link-chevron', class: 'link__chevron' -%}
+              </a>
+            {%- else -%}
+              <a
+                class='btn btn--{{ extra_btn_style }} image-banner__btn'
+                {% if extra_btn_url != blank %}
+                  href='{{ extra_btn_url }}'
+                {% endif %}
+                 data-popup="popup_sec"
+                aria-label='{{- extra_btn_text | strip_html | escape -}}'
+                tabindex='-1'
+              >
+                {{- extra_btn_text -}}
+            {% if btn_content_mobile %}
+                 
+<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M10.2048 5.78954C10.2037 5.74663 10.2037 5.70684 10.2037 5.67106C8.26365 4.7518 6.77616 3.38022 6.59781 0.631084C6.58592 0.447827 6.57985 0.258447 6.57985 0.0626732L8.67118 0.0626221L8.67122 0.0879042C8.67157 0.214046 8.67462 0.336166 8.68031 0.454515C8.7713 2.3481 9.5383 3.27655 10.7875 4.27593L10.8079 4.29226C11.5141 4.8545 12.3955 5.41391 12.3955 5.41391C12.3955 5.41391 12.9379 5.71702 13.5677 5.92477L13.5879 5.93133L13.5879 5.93242L13.5881 7.52018L13.5879 7.52326C12.9495 7.73112 12.3955 8.04073 12.3955 8.04073C12.3955 8.04073 11.4971 8.611 10.7875 9.17866C9.45505 10.2447 8.67121 11.23 8.67121 13.392H6.57988C6.57988 10.2593 8.13435 8.76412 10.2038 7.78358C10.2038 7.74773 10.2038 7.70786 10.2048 7.66486L1.45345 7.66486L0.271076 7.67896L0.271076 7.66486H0.258789L0.258789 5.78954H0.271075L0.271075 5.77364L1.6043 5.78954L10.2048 5.78954Z" fill="black"/>
+</svg>
+                {% endif %}
+              </a>
+            {%- endif -%}
+          {%- endif -%}
+           {%- if extrafirst_btn_text != blank -%}
+              <a
+                class='btn btn--{{ extrafirst_btn_style }} image-banner__btn {{section_popup_properks}}'
+                {% if extrafirst_btn_url != blank %}
+                  href='{{ extrafirst_btn_url }}'
+                {% endif %}
+                data-popup="popup_sec"
+                aria-label='{% if extrafirst_btn_text != blank %}{{ extrafirst_btn_text | strip_html | escape }}{% elsif extrafirst_btn_url.title != blank %}{{ extrafirst_btn_url.title | strip_html | escape }}{% else %}#{% endif %}'
+              >
+                {{- extrafirst_btn_text -}}
+                 {% if btn_content_mobile %}
+               
+<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M10.2048 5.78954C10.2037 5.74663 10.2037 5.70684 10.2037 5.67106C8.26365 4.7518 6.77616 3.38022 6.59781 0.631084C6.58592 0.447827 6.57985 0.258447 6.57985 0.0626732L8.67118 0.0626221L8.67122 0.0879042C8.67157 0.214046 8.67462 0.336166 8.68031 0.454515C8.7713 2.3481 9.5383 3.27655 10.7875 4.27593L10.8079 4.29226C11.5141 4.8545 12.3955 5.41391 12.3955 5.41391C12.3955 5.41391 12.9379 5.71702 13.5677 5.92477L13.5879 5.93133L13.5879 5.93242L13.5881 7.52018L13.5879 7.52326C12.9495 7.73112 12.3955 8.04073 12.3955 8.04073C12.3955 8.04073 11.4971 8.611 10.7875 9.17866C9.45505 10.2447 8.67121 11.23 8.67121 13.392H6.57988C6.57988 10.2593 8.13435 8.76412 10.2038 7.78358C10.2038 7.74773 10.2038 7.70786 10.2048 7.66486L1.45345 7.66486L0.271076 7.67896L0.271076 7.66486H0.258789L0.258789 5.78954H0.271075L0.271075 5.77364L1.6043 5.78954L10.2048 5.78954Z" fill="black"/>
+</svg>
+
+                {% endif %}
+              </a>
+          {% endif %}
+           {%- if extrasec_btn_text != blank -%}
+              <a
+                class='btn btn--{{ extrasec_btn_style }} image-banner__btn {{section_popup_properks}}'
+                {% if extrasec_btn_url != blank %}
+                  href='{{ extrasec_btn_url }}'
+                {% endif %}
+                data-popup="popup_sec"
+                aria-label='{% if extrasec_btn_text != blank %}{{ extrasec_btn_text | strip_html | escape }}{% elsif extrasec_btn_url.title != blank %}{{ extrasec_btn_url.title | strip_html | escape }}{% else %}#{% endif %}'
+              >
+                {{- extrasec_btn_text -}}
+                 {% if btn_content_mobile %}
+               
+<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M10.2048 5.78954C10.2037 5.74663 10.2037 5.70684 10.2037 5.67106C8.26365 4.7518 6.77616 3.38022 6.59781 0.631084C6.58592 0.447827 6.57985 0.258447 6.57985 0.0626732L8.67118 0.0626221L8.67122 0.0879042C8.67157 0.214046 8.67462 0.336166 8.68031 0.454515C8.7713 2.3481 9.5383 3.27655 10.7875 4.27593L10.8079 4.29226C11.5141 4.8545 12.3955 5.41391 12.3955 5.41391C12.3955 5.41391 12.9379 5.71702 13.5677 5.92477L13.5879 5.93133L13.5879 5.93242L13.5881 7.52018L13.5879 7.52326C12.9495 7.73112 12.3955 8.04073 12.3955 8.04073C12.3955 8.04073 11.4971 8.611 10.7875 9.17866C9.45505 10.2447 8.67121 11.23 8.67121 13.392H6.57988C6.57988 10.2593 8.13435 8.76412 10.2038 7.78358C10.2038 7.74773 10.2038 7.70786 10.2048 7.66486L1.45345 7.66486L0.271076 7.67896L0.271076 7.66486H0.258789L0.258789 5.78954H0.271075L0.271075 5.77364L1.6043 5.78954L10.2048 5.78954Z" fill="black"/>
+</svg>
+
+                {% endif %}
+              </a>
+          {% endif %}
+          
+        </div>
+      {%- endif -%}
+         {% if small_text != blank %}
+        <div class="devSignText">
+         {{ small_text }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{%- endif -%}
